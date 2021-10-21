@@ -40,7 +40,7 @@ class OverlayContainer extends StatefulWidget {
 }
 
 class _OverlayContainerState extends State<OverlayContainer>
-    with WidgetsBindingObserver, SingleTickerProviderStateMixin  {
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   late OverlayEntry _overlayEntry;
   bool _opened = false;
 
@@ -131,7 +131,7 @@ class _OverlayContainerState extends State<OverlayContainer>
   void _hide() {
     if (_opened) {
       WidgetsBinding.instance?.addPostFrameCallback((_) {
-        _animationController.reverse().whenComplete((){
+        _animationController.reverse().whenComplete(() {
           _overlayEntry.remove();
           _opened = false;
         });
@@ -161,7 +161,7 @@ class _OverlayContainerState extends State<OverlayContainer>
           // width: widget.asWideAsParent ? size.width : null,
           child: Material(
             child: _animated(widget.child),
-            color: widget.materialColor,
+            color: Colors.black.withOpacity(0.5),
           ),
         );
       },

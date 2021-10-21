@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:ecomerce_test/widget/overlay_container.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +21,7 @@ class MyDropdownButton extends StatefulWidget {
   _MyDropdownButtonState createState() => _MyDropdownButtonState();
 }
 
-class _MyDropdownButtonState extends State<MyDropdownButton>{
+class _MyDropdownButtonState extends State<MyDropdownButton> {
   bool _dropdownShown = false;
   List<bool> isSelected = [false, false, false];
   List<String> listOptions = ["Dưới 1 triệu", "Dưới 5 triệu", "Trên 10 triệu"];
@@ -67,78 +69,87 @@ class _MyDropdownButtonState extends State<MyDropdownButton>{
                   0,
                   0,
                 ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Column(
-              children: [
-                Container(
-                  color: Colors.white,
-                  height: 120,
-                  child: GridView.builder(
-                    itemCount: listOptions.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 5,
-                      crossAxisSpacing: 16.0,
-                      mainAxisSpacing: 16.0,
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          //set the toggle logic
-                          setState(() {
-                            for (int indexBtn = 0;
-                                indexBtn < isSelected.length;
-                                indexBtn++) {
-                              if (indexBtn == index) {
-                                isSelected[indexBtn] = true;
-                              } else {
-                                isSelected[indexBtn] = false;
+          child: Stack(children: [
+            InkWell(
+              onTap: _toggleDropdown,
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              color: Colors.white,
+              child: Column(
+                children: [
+                  Container(
+                    color: Colors.white,
+                    height: 120,
+                    child: GridView.builder(
+                      itemCount: listOptions.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 5,
+                        crossAxisSpacing: 16.0,
+                        mainAxisSpacing: 16.0,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            //set the toggle logic
+                            setState(() {
+                              for (int indexBtn = 0;
+                                  indexBtn < isSelected.length;
+                                  indexBtn++) {
+                                if (indexBtn == index) {
+                                  isSelected[indexBtn] = true;
+                                } else {
+                                  isSelected[indexBtn] = false;
+                                }
                               }
-                            }
-                          });
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: isSelected[index]
-                                ? Colors.white
-                                : Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                                color: isSelected[index]
-                                    ? Colors.blue
-                                    : Colors.transparent),
-                          ),
-                          child: Center(
-                            child: Text(
-                              listOptions[index],
-                              style: TextStyle(
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: isSelected[index]
+                                  ? Colors.white
+                                  : Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
                                   color: isSelected[index]
                                       ? Colors.blue
-                                      : Colors.black),
+                                      : Colors.transparent),
+                            ),
+                            child: Center(
+                              child: Text(
+                                listOptions[index],
+                                style: TextStyle(
+                                    color: isSelected[index]
+                                        ? Colors.blue
+                                        : Colors.black),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton(
-                      onPressed: _toggleDropdown,
-                      child: Text("OK"),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                  Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                        onPressed: _toggleDropdown,
+                        child: Text("OK"),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          primary: Colors.blue,
                         ),
-                        primary: Colors.blue,
-                      ),
-                    ))
-              ],
+                      ))
+                ],
+              ),
             ),
-          ),
+          ]),
         ),
       ],
     );
