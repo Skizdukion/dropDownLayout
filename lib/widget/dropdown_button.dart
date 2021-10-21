@@ -1,3 +1,4 @@
+import 'package:ecomerce_test/widget/animated_dropdown.dart';
 import 'package:ecomerce_test/widget/overlay_container.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,7 @@ class _MyDropdownButtonState extends State<MyDropdownButton>{
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
@@ -54,6 +55,14 @@ class _MyDropdownButtonState extends State<MyDropdownButton>{
             ],
           ),
         ),
+        // AnimatedDropdown(
+        //   display: _dropdownShown,
+        //   child: Container(
+        //     width: MediaQuery.of(context).size.width,
+        //     height: 150,
+        //     color: Colors.red,
+        //   ),
+        // ),
         OverlayContainer(
           duraion: const Duration(milliseconds: 300),
           materialColor: Colors.white,

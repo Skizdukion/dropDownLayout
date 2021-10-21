@@ -1,3 +1,7 @@
+import 'dart:core';
+
+import 'package:ecomerce_test/widget/animated_dropdown.dart';
+import 'package:ecomerce_test/widget/custom_dropdown_btn.dart';
 import 'package:ecomerce_test/widget/dropdown_button.dart';
 import 'package:flutter/material.dart';
 
@@ -77,61 +81,156 @@ class SaleProduct extends StatefulWidget {
   State<SaleProduct> createState() => _SaleProductState();
 }
 
+class Model{
+  Model({required this.text, this.isSelected = false});
+  String text;
+  bool isSelected;
+}  
+
 class _SaleProductState extends State<SaleProduct> {
+
+  bool dropDown = false;
+  List<Model> list = [
+    Model(text: 'tren 1 trieu'),
+    Model(text: 'tren 2 trieu'),
+    Model(text: 'tren 3 trieu'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      body: Column(
-        children: [
-          Container(
-              height: 70,
-              decoration: BoxDecoration(
-                  color: Colors.white, border: Border.all(color: Colors.black)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        color: Colors.white,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              width: MediaQuery.of(context).size.width,
+              child: Container(
+                height: 70,
+                decoration: BoxDecoration(
+                    color: Colors.white, border: Border.all(color: Colors.black)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CustomDropDownBtn(text: 'text', onPress: onDropDown),
+                    CustomDropDownBtn(text: 'text', onPress: onDropDown),
+                    CustomDropDownBtn(text: 'text', onPress: onDropDown),
+                  ],
+                )),
+            ),
+            const Positioned(
+              child: Text("Center Text", style: TextStyle(color: Colors.black),),
+              top: 100,
+              left: 200,
+            ),
+            const Positioned(
+              child: Text("Center Text", style: TextStyle(color: Colors.black),),
+              top: 130,
+              left: 200,
+            ),
+            const Positioned(
+              child: Text("Center Text", style: TextStyle(color: Colors.black),),
+              top: 150,
+              left: 200,
+            ),
+            const Positioned(
+              child: Text("Center Text", style: TextStyle(color: Colors.black),),
+              top: 200,
+              left: 200,
+            ),
+            const Positioned(
+              child: Text("Center Text", style: TextStyle(color: Colors.black),),
+              top: 300,
+              left: 200,
+            ),
+            Positioned(
+              top: 70,
+              child: AnimatedDropdown(
+                display: dropDown,
                 children: [
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+                  Container(
+                    color: Colors.white,
+                    width: MediaQuery.of(context).size.width,
+                    height: 110,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      child: GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 5,
+                          crossAxisSpacing: 16.0,
+                          mainAxisSpacing: 16.0,
                         ),
-                        primary: Colors.grey.shade300, // background
+                        itemCount: list.length,
+                        itemBuilder: (BuildContext context, int index){
+                          return InkWell(
+                            onTap: (){
+                              setState(() {
+                                list[index].isSelected = !list[index].isSelected;
+                              });                                
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: list[index].isSelected
+                                    ? Colors.white
+                                    : Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                    color: list[index].isSelected
+                                        ? Colors.blue
+                                        : Colors.transparent),
+                              ),
+                              child: Center(child: Text(list[index].text),),
+                            ),
+                          );
+                        },
                       ),
-                      onPressed: () {},
-                      child: const Text(
-                        "Trên 1 triệu",
-                        style: TextStyle(color: Colors.grey),
-                      )),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 20,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: InkWell(
+                        onTap: (){
+                          setState(() {
+                            dropDown = false;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.red,
+                          ),
+                          child: const Center(
+                            child: Text('OK'),
+                          ),
                         ),
-                        primary: Colors.grey.shade300, // background
                       ),
-                      onPressed: () {},
-                      child: const Text(
-                        "Trên 1 triệu",
-                        style: TextStyle(color: Colors.grey),
-                      )),
-                  const MyDropdownButton(
-                    label: "Flash Sale",
-                    position: DropdownPosition.BELOW,
-                  )
+                    ),
+                  ),
+                  Expanded(child: InkWell(
+                    onTap: (){
+                      onDropDown(false);
+                    },
+                  )),
                 ],
-              )),
-          TextButton(onPressed: (){}, child: const Text('child')),
-          TextButton(onPressed: (){}, child: const Text('child')),
-          TextButton(onPressed: (){}, child: const Text('child')),
-          TextButton(onPressed: (){}, child: const Text('child')),
-          TextButton(onPressed: (){}, child: const Text('child')),
-          TextButton(onPressed: (){}, child: const Text('child')),
-          TextButton(onPressed: (){}, child: const Text('child')),
-          TextButton(onPressed: (){}, child: const Text('child')),
-        ],
+              ),
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  onDropDown(bool isDropDown){
+    setState(() {
+      dropDown = isDropDown;
+    });
   }
 }
