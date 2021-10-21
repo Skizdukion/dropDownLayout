@@ -116,9 +116,9 @@ class _SaleProductState extends State<SaleProduct> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CustomDropDownBtn(text: 'text', onPress: onDropDown),
-                    CustomDropDownBtn(text: 'text', onPress: onDropDown),
-                    CustomDropDownBtn(text: 'text', onPress: onDropDown),
+                    CustomDropDownBtn(text: 'text', onPress: onDropDown, isDropDown: dropDown),
+                    CustomDropDownBtn(text: 'text', onPress: onDropDown, isDropDown: dropDown),
+                    CustomDropDownBtn(text: 'text', onPress: onDropDown, isDropDown: dropDown),
                   ],
                 )),
             ),
@@ -151,6 +151,7 @@ class _SaleProductState extends State<SaleProduct> {
               top: 70,
               child: AnimatedDropdown(
                 display: dropDown,
+                onClose: onDropDown,
                 children: [
                   Container(
                     color: Colors.white,
@@ -191,16 +192,15 @@ class _SaleProductState extends State<SaleProduct> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  Container(
+                    color: Colors.white,
                     width: double.infinity,
-                    height: 20,
+                    height: 50,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: InkWell(
                         onTap: (){
-                          setState(() {
-                            dropDown = false;
-                          });
+                          onDropDown(false);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -214,11 +214,6 @@ class _SaleProductState extends State<SaleProduct> {
                       ),
                     ),
                   ),
-                  Expanded(child: InkWell(
-                    onTap: (){
-                      onDropDown(false);
-                    },
-                  )),
                 ],
               ),
             )

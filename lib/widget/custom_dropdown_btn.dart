@@ -7,6 +7,7 @@ class CustomDropDownBtn extends StatefulWidget {
     this.height = 30, 
     this.width = 100,
     this.color = Colors.white,
+    this.isDropDown = true,
   }) : super(key: key);
 
   final String text;
@@ -14,6 +15,7 @@ class CustomDropDownBtn extends StatefulWidget {
   final double width;
   final double height;
   final Color color;
+  final bool isDropDown;
 
   @override
   _CustomDropDownBtnState createState() => _CustomDropDownBtnState();
@@ -21,13 +23,14 @@ class CustomDropDownBtn extends StatefulWidget {
 
 class _CustomDropDownBtnState extends State<CustomDropDownBtn> {
 
-  bool isDropDown = false;
+  @override
+  void didUpdateWidget(CustomDropDownBtn oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+  }
 
   void toggle(){
-    setState(() {
-      isDropDown = !isDropDown;
-    });
-    widget.onPress.call(isDropDown);
+    widget.onPress.call(!widget.isDropDown);
   }
 
   @override
@@ -50,7 +53,7 @@ class _CustomDropDownBtnState extends State<CustomDropDownBtn> {
               fontSize: 15,
             ),),
             Icon(
-              isDropDown ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+              widget.isDropDown ? Icons.arrow_drop_up : Icons.arrow_drop_down,
               color: Colors.blue,
             )
           ],

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AnimatedDropdown extends StatefulWidget {
-  const AnimatedDropdown({ Key? key, this.duration = const Duration(milliseconds: 300), required this.children, required this.display}) : super(key: key);
+  const AnimatedDropdown({ Key? key, this.opacity = 0.2 , this.duration = const Duration(milliseconds: 300), required this.children, required this.display, this.onClose}) : super(key: key);
 
   final Duration duration;
 
   final List<Widget> children;
 
   final bool display;
+
+  final double opacity;
+
+  final Function(bool)? onClose;
 
   @override
   _AnimatedDropdownState createState() => _AnimatedDropdownState();
@@ -22,7 +26,7 @@ class _AnimatedDropdownState extends State<AnimatedDropdown> with SingleTickerPr
 
   late final Animation<double> _animation = CurvedAnimation(
     parent: _animationController,
-    curve: Curves.ease,
+    curve: Curves.easeOut,
   );
 
   @override
@@ -79,11 +83,20 @@ class _AnimatedDropdownState extends State<AnimatedDropdown> with SingleTickerPr
       sizeFactor: _animation,
       child: Container(
         child: Column(
-          children: widget.children,
+          children: [
+            for (var item in widget.children) item,
+            Expanded(child:
+            InkWell(
+              onTap: (){
+                _animationController.reverse();
+                if (widget.onClose != null) widget.onClose!.call(!widget.display);
+              }
+            )),
+          ]
         ),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: Colors.black.withOpacity(0.2),
+        color: ((widget.opacity > 1) && (widget.opacity < 0)) ? Colors.black.withOpacity(0.3) :  Colors.black.withOpacity(widget.opacity),
       ),
     );
   }
