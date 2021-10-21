@@ -3,69 +3,77 @@ import 'package:flutter/material.dart';
 
 class ProductPage extends StatelessWidget {
   const ProductPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.grey.shade300,
-          title: Container(
-            height: 40,
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8)),
-            child: TextFormField(
-                decoration: const InputDecoration(
-              suffixIcon: Icon(
-                Icons.search,
-                color: Colors.black,
-              ), // icon is 48px widget.
-            )),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.notifications,
-                color: Colors.black,
-              ),
-              onPressed: () {},
+      child: Builder(builder: (BuildContext context) {
+        final TabController tabController = DefaultTabController.of(context)!;
+        tabController.addListener(() {
+          if (!tabController.indexIsChanging) {
+            // Your code goes here.
+            // To get index of current tab use tabController.index
+          }
+        });
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.grey.shade300,
+            title: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8)),
+              child: TextFormField(
+                  decoration: const InputDecoration(
+                suffixIcon: Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ), // icon is 48px widget.
+              )),
             ),
-            IconButton(
-              icon: const Icon(
-                Icons.shopping_cart,
-                color: Colors.black,
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(
+                  Icons.notifications,
+                  color: Colors.black,
+                ),
+                onPressed: () {},
               ),
-              onPressed: () {},
-            )
-          ],
-          bottom: const TabBar(
-              indicatorWeight: 10,
-              indicator: UnderlineTabIndicator(
-                borderSide: BorderSide(color: Colors.blue, width: 3),
-                insets: EdgeInsets.symmetric(horizontal: 20),
-              ),
-              tabs: [
-                Text(
-                  "A",
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+              IconButton(
+                icon: const Icon(
+                  Icons.shopping_cart,
+                  color: Colors.black,
                 ),
-                Text(
-                  "B",
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                onPressed: () {},
+              )
+            ],
+            bottom: const TabBar(
+                indicatorWeight: 10,
+                indicator: UnderlineTabIndicator(
+                  borderSide: BorderSide(color: Colors.blue, width: 3),
+                  insets: EdgeInsets.symmetric(horizontal: 20),
                 ),
-                Text(
-                  "C",
-                  style: TextStyle(color: Colors.black, fontSize: 20),
-                ),
-              ]),
-        ),
-        body: TabBarView(
-          children: [const SaleProduct(), Container(), Container()],
-        ),
-      ),
+                tabs: [
+                  Text(
+                    "A",
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                  Text(
+                    "B",
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                  Text(
+                    "C",
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                ]),
+          ),
+          body: TabBarView(
+            children: [const SaleProduct(), Container(), Container()],
+          ),
+        );
+      }),
     );
   }
 }
